@@ -1,9 +1,9 @@
-package com.example.todoapplicationexample
+package com.example.todoapplicationexample.todo
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.todoapplicationexample.lists.TasksInProgressFragment
+import com.example.todoapplicationexample.todo.lists.TasksInProgressFragment
 
 class TabBarNumberAdapter(fragment: FragmentActivity) : FragmentStateAdapter(fragment) {
 
@@ -13,7 +13,9 @@ class TabBarNumberAdapter(fragment: FragmentActivity) : FragmentStateAdapter(fra
 
         return when(position) {
             1 -> TasksInProgressFragment()
-            else -> {TasksInProgressFragment()}
+            else -> {
+                TasksInProgressFragment()
+            }
         }
 
     }

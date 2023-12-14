@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:title="@string/bottom_navigation_item_todo"
+        android:icon="@drawable/ic_checklist_rtl" />
+    <item
+        android:title="@string/bottom_navigation_item_notes"
+        android:icon="@drawable/ic_notes"/>
+    <item
+        android:title="@string/bottom_navigation_item_profile"
+        android:icon="@drawable/ic_account_circle"/>
+</menu>

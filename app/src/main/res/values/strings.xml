@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">TODO Application Example</string>
+    <string name="bottom_navigation_item_todo">TODO</string>
+    <string name="bottom_navigation_item_notes">Notes</string>
+    <string name="bottom_navigation_item_profile">Profile</string>
 </resources>

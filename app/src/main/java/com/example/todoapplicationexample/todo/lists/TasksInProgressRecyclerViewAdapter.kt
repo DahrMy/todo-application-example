@@ -1,10 +1,10 @@
-package com.example.todoapplicationexample.lists
+package com.example.todoapplicationexample.todo.lists
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
-import com.example.todoapplicationexample.Task
+import com.example.todoapplicationexample.todo.Task
 
 import com.example.todoapplicationexample.databinding.ItemTaskInProgressBinding
 

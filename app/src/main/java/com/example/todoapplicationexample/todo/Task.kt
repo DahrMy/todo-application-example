@@ -1,4 +1,4 @@
-package com.example.todoapplicationexample
+package com.example.todoapplicationexample.todo
 
 data class Task(
     var name: String,
