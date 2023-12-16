@@ -7,6 +7,8 @@ data class Task(
 
 object TaskUtils {
     fun generateSimpleList(): List<Task> {
+
+        // Generated AI list
         return listOf(
             Task("Buy groceries", TaskStatus.DONE),
             Task("Clean the house", TaskStatus.IN_PROGRESS),
@@ -24,10 +26,6 @@ object TaskUtils {
             Task("Learn a new skill", TaskStatus.IN_PROGRESS),
             Task("Read a book", TaskStatus.DONE)
         )
-    }
-
-    fun List<Task>.filterListByStatusCondition(targetStatus: TaskStatus) {
-
     }
 
 }
