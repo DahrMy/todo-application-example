@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal">
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="2.5dp"
+    android:layout_marginEnd="5dp"
+    android:layout_marginStart="2.5dp"
+    android:orientation="horizontal"
+    android:clickable="true"
+    android:focusable="true"
+    android:checkable="true"
+    style="@style/Widget.Material3.CardView.Outlined" >
 
     <TextView
         android:id="@+id/textview_task_name"
@@ -13,4 +22,4 @@
         android:textAppearance="?attr/textAppearanceListItem"
         tools:text="Task name" />
 
-</LinearLayout>
+</com.google.android.material.card.MaterialCardView>

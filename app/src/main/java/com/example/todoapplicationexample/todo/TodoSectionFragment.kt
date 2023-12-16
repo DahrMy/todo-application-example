@@ -16,17 +16,14 @@ class TodoSectionFragment : Fragment() {
 
     private lateinit var tabLayoutAdapter: TabBarNumberAdapter
 
-    private val tabNames = listOf<String>(
-        "In progress",
-        "Done",
-        "Deleted"
-    )
+    private lateinit var tabNames: List<String>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentTodoSectionBinding.inflate(inflater, container,false)
 
+        tabNames = getTabNames()
         tabLayoutAdapter = TabBarNumberAdapter(requireActivity())
         binding.apply {
             viewPager.adapter = tabLayoutAdapter
@@ -37,6 +34,15 @@ class TodoSectionFragment : Fragment() {
 
         return binding.root
     }
+
+    private fun getTabNames(): List<String> {
+        return listOf(
+            TaskStatus.IN_PROGRESS.s,
+            TaskStatus.DONE.s,
+            TaskStatus.DELETED.s
+        )
+    }
+
 
     companion object {
 
