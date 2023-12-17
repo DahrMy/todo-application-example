@@ -5,5 +5,8 @@
     <string name="bottom_navigation_item_profile">Profile</string>
     <string name="button_edit_text">Edit</string>
     <string name="textview_profile_section_title">Profile data</string>
-    <string name="imageview_profile_description">Change a profile image</string>
+    <string name="imageview_profile_description">Profile image</string>
+    <string name="imageview_ic_profile_image_edit_description">Change the profile image</string>
+    <string name="button_confirm_text">Confirm</string>
+    <string name="text_input_user_name_hint">User name</string>
 </resources>
