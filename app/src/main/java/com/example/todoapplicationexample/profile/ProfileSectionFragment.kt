@@ -7,6 +7,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.content.res.AppCompatResources
+import com.example.todoapplicationexample.R
 import com.example.todoapplicationexample.databinding.FragmentProfileSectionBinding
 
 class ProfileSectionFragment : Fragment() {
@@ -17,6 +20,9 @@ class ProfileSectionFragment : Fragment() {
 
     private var profile: Profile? = null // TODO: change to lateinit var
 
+    private val galleryLauncher = registerForActivityResult(ActivityResultContracts.GetContent()) {
+        galleryUri -> binding.imageviewProfile.setImageURI(galleryUri)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -30,10 +36,15 @@ class ProfileSectionFragment : Fragment() {
         return view
     }
 
+    override fun onDestroy() {
+        _binding = null
+        super.onDestroy()
+    }
+
     private fun initProfileFragmentContent() {
         binding.apply {
             if (profile == null) { setEditMode(true) } else {
-                imageviewProfile.setImageDrawable(profile!!.image)
+                imageviewProfile.setImageDrawable(profile?.image)
                 textviewUserName.text = profile!!.name
             }
         }
@@ -52,13 +63,18 @@ class ProfileSectionFragment : Fragment() {
             }
 
             buttonConfirm.setOnClickListener {
+                val defaultImage = AppCompatResources.getDrawable(requireContext(), R.drawable.ic_account_circle)!! // TODO: Remove bug when image not selected in image picker (only when image have been confirmed before)
                 profile = Profile(
                     editTextUsername.text.toString(),
-                    imageviewProfile.drawable
+                    imageviewProfile.drawable ?: defaultImage
                 )
                 imageviewProfile.setImageDrawable(profile!!.image)
                 textviewUserName.text = profile!!.name
                 setEditMode(false)
+            }
+
+            cardviewProfileImage.setOnClickListener {
+                galleryLauncher.launch("image/*")
             }
 
         }
@@ -72,6 +88,7 @@ class ProfileSectionFragment : Fragment() {
 
                 imageviewProfile.alpha = 0.1F
                 cardviewProfileImage.apply {
+                    isEnabled = true
                     isCheckable = true
                     isClickable = true
                     isFocusable = true
@@ -87,6 +104,7 @@ class ProfileSectionFragment : Fragment() {
 
                 imageviewProfile.alpha = 1F
                 cardviewProfileImage.apply {
+                    isEnabled = false
                     isCheckable = false
                     isClickable = false
                     isFocusable = false
