@@ -8,7 +8,7 @@
     android:layout_height="match_parent" >
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list"
+        android:id="@+id/recyclerview_notes"
         android:name="com.example.todoapplicationexample.notes.NotesListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,6 +17,17 @@
         app:layoutManager="LinearLayoutManager"
         tools:context=".notes.NotesListFragment"
         tools:listitem="@layout/item_note" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_create_note"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_action_add"
+        android:contentDescription="@string/fab_create_note_description"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        style="@style/ShapeAppearanceOverlay.Material3.FloatingActionButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

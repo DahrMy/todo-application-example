@@ -7,6 +7,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.todoapplicationexample.databinding.ActivityMainBinding
+import com.example.todoapplicationexample.notes.NotesListFragment
 import com.example.todoapplicationexample.profile.ProfileSectionFragment
 import com.example.todoapplicationexample.todo.TodoSectionFragment
 
@@ -27,7 +28,7 @@ class MainActivity : AppCompatActivity() {
     private fun onBottomNavigationItemClicked(menuItem: MenuItem): Boolean {
         when (menuItem.itemId) {
             R.id.section_todo -> loadFragment(TodoSectionFragment())
-            R.id.section_notes -> return false // TODO: connect fragment with notes
+            R.id.section_notes -> loadFragment(NotesListFragment())
             R.id.section_profile -> loadFragment(ProfileSectionFragment())
         }
         return true

@@ -2,18 +2,12 @@ package com.example.todoapplicationexample.notes
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import com.example.todoapplicationexample.R
 
 import com.example.todoapplicationexample.notes.placeholder.PlaceholderContent.PlaceholderItem
 import com.example.todoapplicationexample.databinding.ItemNoteBinding
 
-/**
- * [RecyclerView.Adapter] that can display a [PlaceholderItem].
- * TODO: Replace the implementation with code for your data type.
- */
 class NotesRecyclerViewAdapter(
     private val values: List<PlaceholderItem>
 ) : RecyclerView.Adapter<NotesRecyclerViewAdapter.ViewHolder>() {
@@ -32,19 +26,15 @@ class NotesRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
-        holder.idView.text = item.id
-        holder.contentView.text = item.content
+        holder.textviewNoteTitle.text = item.id
+        holder.textviewNoteText.text = item.content
     }
 
     override fun getItemCount(): Int = values.size
 
     inner class ViewHolder(binding: ItemNoteBinding) : RecyclerView.ViewHolder(binding.root) {
-        val idView: TextView = binding.itemNumber
-        val contentView: TextView = binding.content
-
-        override fun toString(): String {
-            return super.toString() + " '" + contentView.text + "'"
-        }
+        val textviewNoteTitle: TextView = binding.textviewNoteTitle
+        val textviewNoteText: TextView = binding.textviewNoteText
     }
 
 }
