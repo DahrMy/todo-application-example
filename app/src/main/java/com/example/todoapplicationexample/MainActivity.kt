@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
         _binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
 
-        binding.bottomNavigationView.setOnItemReselectedListener(this::onBottomNavigationItemClicked)
+        binding.bottomNavigationView.setOnItemSelectedListener(this::onBottomNavigationItemClicked)
 
         setContentView(view)
     }
