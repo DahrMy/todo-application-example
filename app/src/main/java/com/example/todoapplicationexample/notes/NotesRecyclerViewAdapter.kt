@@ -5,29 +5,22 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
 
-import com.example.todoapplicationexample.notes.placeholder.PlaceholderContent.PlaceholderItem
 import com.example.todoapplicationexample.databinding.ItemNoteBinding
 
 class NotesRecyclerViewAdapter(
-    private val values: List<PlaceholderItem>
+    private val values: List<Note>
 ) : RecyclerView.Adapter<NotesRecyclerViewAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-
         return ViewHolder(
-            ItemNoteBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
+            ItemNoteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         )
-
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
-        holder.textviewNoteTitle.text = item.id
-        holder.textviewNoteText.text = item.content
+        holder.textviewNoteTitle.text = item.title
+        holder.textviewNoteText.text = item.text
     }
 
     override fun getItemCount(): Int = values.size

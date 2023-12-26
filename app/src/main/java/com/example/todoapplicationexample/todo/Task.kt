@@ -5,7 +5,7 @@ data class Task(
     var status: TaskStatus
 )
 
-object TaskUtils {
+object TaskUtils { // TODO: question(Can I make it protected?)
     fun generateSimpleList(): List<Task> {
 
         // Generated AI list

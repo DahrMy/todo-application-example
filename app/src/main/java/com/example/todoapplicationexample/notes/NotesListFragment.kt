@@ -8,7 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.todoapplicationexample.databinding.FragmentNotesListBinding
-import com.example.todoapplicationexample.notes.placeholder.PlaceholderContent
+import com.example.todoapplicationexample.notes.Note.Companion.generateSimpleList
 
 class NotesListFragment : Fragment() {
 
@@ -16,6 +16,7 @@ class NotesListFragment : Fragment() {
     private val binding get() = _binding!!
 
     private var columnCount = 2
+    private lateinit var list: List<Note>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +32,7 @@ class NotesListFragment : Fragment() {
         _binding = FragmentNotesListBinding.inflate(inflater, container, false)
         val view = binding.root
         val recyclerView = binding.recyclerviewNotes
+        list = generateSimpleList(5)
 
         // Set the adapter
         with(recyclerView) {
@@ -38,10 +40,12 @@ class NotesListFragment : Fragment() {
                 columnCount <= 1 -> LinearLayoutManager(context)
                 else -> GridLayoutManager(context, columnCount)
             }
-            adapter = NotesRecyclerViewAdapter(PlaceholderContent.ITEMS)
+            adapter = NotesRecyclerViewAdapter(list)
         }
+
         return view
     }
+
 
     companion object {
 
