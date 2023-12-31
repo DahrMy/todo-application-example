@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.todoapplicationexample.R
 import com.example.todoapplicationexample.databinding.FragmentNotesListBinding
 import com.example.todoapplicationexample.notes.Note.Companion.generateSimpleList
 
@@ -34,6 +35,8 @@ class NotesListFragment : Fragment() {
         val recyclerView = binding.recyclerviewNotes
         list = generateSimpleList(5)
 
+        binding.fabCreateNote.setOnClickListener { openDialogCreateNewNote() }
+
         // Set the adapter
         with(recyclerView) {
             layoutManager = when {
@@ -46,6 +49,13 @@ class NotesListFragment : Fragment() {
         return view
     }
 
+    private fun openDialogCreateNewNote() {
+        parentFragmentManager
+            .beginTransaction()
+            .addToBackStack("")
+            .replace(R.id.fragment_container_view, EditNoteDialogFragment())
+            .commit()
+    }
 
     companion object {
 

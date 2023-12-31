@@ -15,4 +15,5 @@
     <string name="item_note_editor_save_title">Save</string>
     <string name="edittext_note_title_hint">Note title</string>
     <string name="item_note_editor_attach_image_title">Attach image</string>
+    <string name="item_note_editor_make_photo_title">Make photo</string>
 </resources>

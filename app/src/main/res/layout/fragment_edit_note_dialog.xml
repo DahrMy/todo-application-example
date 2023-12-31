@@ -17,12 +17,12 @@
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
-            style="@style/Widget.Material3.Toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/design_default_color_primary"
+            android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
-            app:menu="@menu/toolbar_note_editor_items" />
+            app:menu="@menu/toolbar_note_editor_items"
+            style="@style/Widget.Material3.Toolbar" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
