@@ -1,19 +1,23 @@
 <resources>
     <string name="app_name">TODO Application Example</string>
-    <string name="bottom_navigation_item_todo">TODO</string>
     <string name="bottom_navigation_item_notes">Notes</string>
     <string name="bottom_navigation_item_profile">Profile</string>
-    <string name="button_edit_text">Edit</string>
-    <string name="textview_profile_section_title">Profile data</string>
-    <string name="imageview_profile_description">Profile image</string>
-    <string name="imageview_ic_profile_image_edit_description">Change the profile image</string>
+    <string name="bottom_navigation_item_todo">TODO</string>
     <string name="button_confirm_text">Confirm</string>
-    <string name="text_input_user_name_hint">User name</string>
-    <string name="fab_create_note_description">Create note</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="item_note_editor_save_title">Save</string>
+    <string name="button_edit_text">Edit</string>
     <string name="edittext_note_title_hint">Note title</string>
+    <string name="fab_create_note_description">Create note</string>
+    <string name="imageview_ic_profile_image_edit_description">Change the profile image</string>
+    <string name="imageview_profile_description">Profile image</string>
     <string name="item_note_editor_attach_image_title">Attach image</string>
     <string name="item_note_editor_make_photo_title">Make photo</string>
+    <string name="item_note_editor_save_title">Save</string>
+    <string name="text_input_user_name_hint">User name</string>
+    <string name="textview_profile_section_title">Profile data</string>
+
+    <string name="temp_image_dir">temp_images</string>
+    <string name="temp_image">temp_image.jpg</string>
+
+    <string name="authority">com.example.todoapplicationexample</string>
+
 </resources>
