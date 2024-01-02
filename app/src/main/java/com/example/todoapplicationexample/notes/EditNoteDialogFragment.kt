@@ -11,18 +11,22 @@ import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
+import com.example.todoapplicationexample.Constants
 import com.example.todoapplicationexample.R
 import com.example.todoapplicationexample.databinding.FragmentEditNoteDialogBinding
 import java.io.File
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
+import java.io.Serializable
 
 
 class EditNoteDialogFragment : Fragment() {
 
     private var _binding: FragmentEditNoteDialogBinding? = null
     private val binding get() = _binding!!
+    private var _bundle: Bundle? = null
+    private val bundle get() = _bundle!!
     private var imageList: MutableList<Drawable> = mutableListOf()
 
     private lateinit var adapter: EditNoteDialogImagesRecyclerViewAdapter
@@ -69,6 +73,7 @@ class EditNoteDialogFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentEditNoteDialogBinding.inflate(inflater, container, false)
+        _bundle = Bundle()
         val view = binding.root
 
         adapter = EditNoteDialogImagesRecyclerViewAdapter(imageList.toMutableList())
@@ -97,14 +102,37 @@ class EditNoteDialogFragment : Fragment() {
                     photoLauncher.launch(tempImageUri)
                     true
                 }
-                R.id.save -> false
+                R.id.save -> {
+                    putParcelableNote()
+                    parentFragmentManager
+                        .beginTransaction()
+                        .addToBackStack("")
+                        .replace(R.id.fragment_container_view, NotesListFragment::class.java, bundle)
+                        .commit()
+                    true
+                }
                 else -> false
             }
         }
     }
 
+    override fun onDestroy() {
+        _binding = null
+        _bundle = null
+        super.onDestroy()
+    }
+
     private fun updateRecyclerView(newList: List<Drawable>) {
         adapter.updateList(newList)
+    }
+
+    private fun putParcelableNote() {
+        val note = Note(
+            binding.edittextNoteTitle.text.toString(),
+            binding.edittextNoteText.text.toString(),
+            imageList
+        )
+        bundle.putSerializable(Constants.NOTE_KEY, note as Serializable)
     }
 
     private fun initTempUri(): Uri {
