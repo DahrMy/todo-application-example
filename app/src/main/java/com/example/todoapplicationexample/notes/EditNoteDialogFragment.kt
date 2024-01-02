@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment
 import com.example.todoapplicationexample.R
 import com.example.todoapplicationexample.databinding.FragmentEditNoteDialogBinding
 import java.io.File
+import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
 
@@ -36,7 +37,7 @@ class EditNoteDialogFragment : Fragment() {
     private val photoLauncher = registerForActivityResult(ActivityResultContracts.TakePicture()) {
         uriToDrawable(tempImageUri)?.let { it1 -> imageList.add(it1) }
         updateRecyclerView(imageList)
-/*
+
         val contentResolver = requireContext().contentResolver
 
         val contentValues = ContentValues().apply {
@@ -51,13 +52,16 @@ class EditNoteDialogFragment : Fragment() {
                 contentResolver.openOutputStream(it)
             }
 
-            outputStream?.use { outputStream ->
+            outputStream?.use { output ->
                 val inputStream: InputStream? = tempImageUri.let {
                     contentResolver.openInputStream(it)
                 }
+                inputStream?.use {
+                    input -> input.copyTo(output)
+                }
             }
-        }
- */
+
+        } catch (e: IOException) { e.printStackTrace() }
 
     }
 
