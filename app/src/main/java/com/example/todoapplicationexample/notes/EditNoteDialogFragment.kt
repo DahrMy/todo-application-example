@@ -5,6 +5,8 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -79,13 +81,15 @@ class EditNoteDialogFragment : Fragment() {
         adapter = EditNoteDialogImagesRecyclerViewAdapter(imageList.toMutableList())
         binding.recyclerviewImages.adapter = adapter
 
+        binding.edittextNoteTitle.addTextChangedListener(titleChangeTextWatcher())
+
         tempImageUri = initTempUri()
 
-/*        todo: question(Can't add back arrow button to toolbar)
-          val activity = activity as AppCompatActivity
-          activity.setSupportActionBar(binding.toolbar)
-          activity.setDisplayHomeAsUpEnabled(true)
-          binding.toolbar.setNavigationOnClickListener { getOnBackPressedDispatcher().onBackPressed() }
+/*      todo: question(Can't add back arrow button to toolbar)
+        val activity = activity as AppCompatActivity
+        activity.setSupportActionBar(binding.toolbar)
+        activity.setDisplayHomeAsUpEnabled(true)
+        binding.toolbar.setNavigationOnClickListener { getOnBackPressedDispatcher().onBackPressed() }
 */
         return view
     }
@@ -120,6 +124,20 @@ class EditNoteDialogFragment : Fragment() {
         _binding = null
         _bundle = null
         super.onDestroy()
+    }
+
+    private fun titleChangeTextWatcher(): TextWatcher {
+        return object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { }
+            override fun afterTextChanged(s: Editable?) {
+                binding.apply {
+                    val buttonSave = toolbar.menu.findItem(R.id.save)
+                    buttonSave.isEnabled = s.toString() != ""
+                }
+            }
+
+        }
     }
 
     private fun updateRecyclerView(newList: List<Drawable>) {

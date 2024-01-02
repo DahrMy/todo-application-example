@@ -9,7 +9,7 @@ data class Note(
     val title: String,
     val text: String?,
     val imageList: List<Drawable>?
-) : Serializable { // TODO: Too match problems with Parcelable and @Parcelixe
+) : Serializable { // TODO: question( How can I use Parcelable with imageList? Here too match problems with Parcelable and @Parcelize )
 
     companion object {
 
