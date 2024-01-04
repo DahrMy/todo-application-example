@@ -24,11 +24,11 @@ class EditNoteDialogImagesRecyclerViewAdapter(
     }
 
     fun updateList(newValues: List<Drawable>) {
-        val diffCallback = editNoteDialogImagesRecyclerViewCallback(values, newValues)
-        val diffCourses = DiffUtil.calculateDiff(diffCallback)
+        val diffCallback = EditNoteDialogImagesRecyclerViewCallback(values, newValues)
+        val diffNotes = DiffUtil.calculateDiff(diffCallback)
         values.clear()
         values.addAll(newValues)
-        diffCourses.dispatchUpdatesTo(this)
+        diffNotes.dispatchUpdatesTo(this)
     }
 
     override fun getItemCount(): Int = values.size
@@ -39,7 +39,7 @@ class EditNoteDialogImagesRecyclerViewAdapter(
 
 }
 
-class editNoteDialogImagesRecyclerViewCallback(
+class EditNoteDialogImagesRecyclerViewCallback(
     private val oldList: List<Drawable>,
     private val newList: List<Drawable>
 ) : DiffUtil.Callback() {
