@@ -39,8 +39,4 @@ class TasksInProgressFragment : Fragment() {
         super.onDestroyView()
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance() {}
-    }
 }

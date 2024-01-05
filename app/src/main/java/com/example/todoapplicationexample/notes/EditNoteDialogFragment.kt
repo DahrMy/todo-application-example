@@ -170,13 +170,4 @@ class EditNoteDialogFragment : Fragment() {
         return Drawable.createFromStream(inputStream, uri.toString())
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance() =
-            EditNoteDialogFragment().apply {
-                arguments = Bundle().apply {
-
-                }
-            }
-    }
 }

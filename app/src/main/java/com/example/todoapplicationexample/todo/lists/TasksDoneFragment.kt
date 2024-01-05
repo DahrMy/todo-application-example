@@ -35,14 +35,4 @@ class TasksDoneFragment : Fragment() {
         return view
     }
 
-    companion object {
-
-        @JvmStatic
-        fun newInstance() =
-            TasksDoneFragment().apply {
-                arguments = Bundle().apply {
-
-                }
-            }
-    }
 }

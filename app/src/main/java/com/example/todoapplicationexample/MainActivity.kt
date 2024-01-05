@@ -1,5 +1,3 @@
-@file:Suppress("ObjectPropertyName")
-
 package com.example.todoapplicationexample
 
 import android.os.Bundle
@@ -11,13 +9,12 @@ import com.example.todoapplicationexample.notes.NotesListFragment
 import com.example.todoapplicationexample.profile.ProfileSectionFragment
 import com.example.todoapplicationexample.todo.TodoSectionFragment
 
-private var _binding: ActivityMainBinding? = null
-private val binding get() = _binding!!
+private lateinit var binding: ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
 
         binding.bottomNavigationView.setOnItemSelectedListener(this::onBottomNavigationItemClicked)

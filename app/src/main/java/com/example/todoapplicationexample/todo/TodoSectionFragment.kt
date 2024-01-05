@@ -37,21 +37,10 @@ class TodoSectionFragment : Fragment() {
 
     private fun getTabNames(): List<String> {
         return listOf(
-            TaskStatus.IN_PROGRESS.s,
-            TaskStatus.DONE.s,
-            TaskStatus.DELETED.s
+            TaskStatus.IN_PROGRESS.nameString,
+            TaskStatus.DONE.nameString,
+            TaskStatus.DELETED.nameString
         )
     }
 
-
-    companion object {
-
-        @JvmStatic
-        fun newInstance() =
-            TodoSectionFragment().apply {
-                arguments = Bundle().apply {
-
-                }
-            }
-    }
 }

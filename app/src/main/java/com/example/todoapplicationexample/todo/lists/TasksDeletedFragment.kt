@@ -36,13 +36,4 @@ class TasksDeletedFragment : Fragment() {
         return view
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance() =
-            TasksDeletedFragment().apply {
-                arguments = Bundle().apply {
-
-                }
-            }
-    }
 }

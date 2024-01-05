@@ -130,13 +130,4 @@ class ProfileSectionFragment : Fragment() {
         }
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance() =
-            ProfileSectionFragment().apply {
-                arguments = Bundle().apply {
-
-                }
-            }
-    }
 }
