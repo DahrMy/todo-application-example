@@ -22,7 +22,7 @@ class TasksDoneFragment : Fragment() {
         _binding = FragmentTasksDoneListBinding.inflate(inflater, container, false)
 
         val view = binding.root
-        val recyclerView = binding.list
+        val recyclerView = binding.recyclerView
 
         val list = TaskUtils.generateSimpleList().filter {
             it.status == TaskStatus.DONE
