@@ -11,7 +11,6 @@ class TabBarNumberAdapter(fragmentActivity: FragmentActivity) : FragmentStateAda
 
     override fun getItemCount(): Int = 3
     override fun createFragment(position: Int): Fragment {
-        val fragmentTasksInProgressFragment = TasksInProgressFragment.newInstance() // TODO: QUESTION(why we need it?)
 
         return when(position) {
             0 -> TasksInProgressFragment()

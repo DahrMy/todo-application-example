@@ -9,6 +9,7 @@ class TasksListViewModelFactory(
     private val disposable: CompositeDisposable
 ) : ViewModelProvider.Factory {
 
+    @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(TasksListViewModel::class.java)) {
             return TasksListViewModel(model, disposable) as T

@@ -57,8 +57,4 @@ class TasksInProgressFragment : Fragment() {
         compositeDisposable.add(disposable)
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance() {}
-    }
 }
