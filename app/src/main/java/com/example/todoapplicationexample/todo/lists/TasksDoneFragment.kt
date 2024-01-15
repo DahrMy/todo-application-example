@@ -27,7 +27,7 @@ class TasksDoneFragment : Fragment() {
         val list = TaskUtils.generateSimpleList().filter {
             it.status == TaskStatus.DONE
         }
-        adapter = TasksInProgressRecyclerViewAdapter(list)
+        adapter = TasksInProgressRecyclerViewAdapter(list.toMutableList())
 
         LinearLayoutManager(context)
         recyclerView.adapter = adapter

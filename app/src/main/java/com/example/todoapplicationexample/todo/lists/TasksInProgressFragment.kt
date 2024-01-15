@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.example.todoapplicationexample.todo.TaskStatus
 import com.example.todoapplicationexample.databinding.FragmentTasksInProgressListBinding
+import com.example.todoapplicationexample.todo.Task
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class TasksInProgressFragment : Fragment() {
@@ -17,6 +18,7 @@ class TasksInProgressFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var adapter: TasksInProgressRecyclerViewAdapter
     private lateinit var viewModel: TasksListViewModel
+    private lateinit var list: MutableList<Task>
     private val compositeDisposable = CompositeDisposable()
     private val model = TasksListModel()
 
@@ -25,6 +27,8 @@ class TasksInProgressFragment : Fragment() {
     ): View {
         _binding = FragmentTasksInProgressListBinding.inflate(inflater, container, false)
         val view = binding.root
+        list = emptyList<Task>().toMutableList()
+        adapter = TasksInProgressRecyclerViewAdapter(list)
         LinearLayoutManager(context)
 
         viewModel = initViewModel()
@@ -46,7 +50,8 @@ class TasksInProgressFragment : Fragment() {
 
     private fun showList() {
         val disposable = viewModel.getListObservable().subscribe { tasks ->
-            adapter = TasksInProgressRecyclerViewAdapter(tasks)
+            list = tasks.toMutableList()
+            adapter.updateList(list)
             binding.recyclerView.adapter = adapter
         }
         compositeDisposable.add(disposable)

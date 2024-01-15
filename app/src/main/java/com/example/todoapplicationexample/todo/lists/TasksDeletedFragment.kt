@@ -28,7 +28,7 @@ class TasksDeletedFragment : Fragment() {
         val list = TaskUtils.generateSimpleList().filter {
             it.status == TaskStatus.DELETED
         }
-        adapter = TasksInProgressRecyclerViewAdapter(list)
+        adapter = TasksInProgressRecyclerViewAdapter(list.toMutableList())
 
         LinearLayoutManager(context)
         recyclerView.adapter = adapter
