@@ -30,6 +30,7 @@ class TasksInProgressFragment : Fragment() {
         list = emptyList<Task>().toMutableList()
         adapter = TasksInProgressRecyclerViewAdapter(list)
         LinearLayoutManager(context)
+        binding.recyclerView.adapter = adapter
 
         viewModel = initViewModel()
         viewModel.loadList(TaskStatus.IN_PROGRESS)
@@ -45,16 +46,13 @@ class TasksInProgressFragment : Fragment() {
     }
 
     private fun initViewModel() = ViewModelProvider(
-        this, TasksListViewModelFactory(model, compositeDisposable)
+        this, TasksListViewModelFactory(model)
     )[TasksListViewModel::class.java]
 
     private fun showList() {
-        val disposable = viewModel.getListObservable().subscribe { tasks ->
-            list = tasks.toMutableList()
-            adapter.updateList(list)
-            binding.recyclerView.adapter = adapter
+        viewModel.getListLiveData().observe(viewLifecycleOwner) {
+            adapter.updateList(it)
         }
-        compositeDisposable.add(disposable)
     }
 
 }

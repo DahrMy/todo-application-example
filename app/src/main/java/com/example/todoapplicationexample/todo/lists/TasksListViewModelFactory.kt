@@ -2,17 +2,15 @@ package com.example.todoapplicationexample.todo.lists
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class TasksListViewModelFactory(
-    private val model: TasksListModel,
-    private val disposable: CompositeDisposable
+    private val model: TasksListModel
 ) : ViewModelProvider.Factory {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(TasksListViewModel::class.java)) {
-            return TasksListViewModel(model, disposable) as T
+            return TasksListViewModel(model) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

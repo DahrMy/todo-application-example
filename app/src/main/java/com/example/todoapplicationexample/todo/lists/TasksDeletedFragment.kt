@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todoapplicationexample.databinding.FragmentTasksDeletedBinding
 import com.example.todoapplicationexample.todo.Task
 import com.example.todoapplicationexample.todo.TaskStatus
-import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 class TasksDeletedFragment : Fragment() {
 
@@ -19,7 +18,6 @@ class TasksDeletedFragment : Fragment() {
     private lateinit var adapter: TasksInProgressRecyclerViewAdapter
     private lateinit var viewModel: TasksListViewModel
     private lateinit var list: MutableList<Task>
-    private val compositeDisposable = CompositeDisposable()
     private val model = TasksListModel()
 
     override fun onCreateView(
@@ -32,6 +30,7 @@ class TasksDeletedFragment : Fragment() {
         list = emptyList<Task>().toMutableList()
         adapter = TasksInProgressRecyclerViewAdapter(list)
         LinearLayoutManager(context)
+        binding.recyclerView.adapter = adapter
 
         viewModel = initViewModel()
         viewModel.loadList(TaskStatus.IN_PROGRESS)
@@ -41,16 +40,13 @@ class TasksDeletedFragment : Fragment() {
     }
 
     private fun initViewModel() = ViewModelProvider(
-        this, TasksListViewModelFactory(model, compositeDisposable)
+        this, TasksListViewModelFactory(model)
     )[TasksListViewModel::class.java]
 
     private fun showList() {
-        val disposable = viewModel.getListObservable().subscribe { tasks ->
-            list = tasks.toMutableList()
-            adapter.updateList(list)
-            binding.recyclerView.adapter = adapter
+        viewModel.getListLiveData().observe(viewLifecycleOwner) {
+            adapter.updateList(it)
         }
-        compositeDisposable.add(disposable)
     }
 
 }

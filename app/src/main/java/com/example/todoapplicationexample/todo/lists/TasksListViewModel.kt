@@ -1,42 +1,38 @@
 package com.example.todoapplicationexample.todo.lists
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.todoapplicationexample.todo.Task
 import com.example.todoapplicationexample.todo.TaskStatus
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.schedulers.Schedulers
-import io.reactivex.rxjava3.subjects.PublishSubject
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 
 class TasksListViewModel(
-    private val model: TasksListModel,
-    private val disposable: CompositeDisposable
+    private val model: TasksListModel
 ) : ViewModel() {
 
-    private val tasksSubject: PublishSubject<List<Task>> = PublishSubject.create()
+    private val coroutineContext = Job() + Dispatchers.IO
+
+    private val tasksLiveData = MutableLiveData<List<Task>>()
 
     override fun onCleared() {
+        coroutineContext.cancel()
         super.onCleared()
-        disposable.clear()
     }
 
-    fun getListObservable(): Observable<List<Task>> = tasksSubject
+    fun getListLiveData(): LiveData<List<Task>> = tasksLiveData
 
     fun loadList(status: TaskStatus) {
-
-        val tasksListDisposable = model.getTasks()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { result ->
-                tasksSubject.onNext(result.filter {
-                    it.status == status
-                })
-                getListObservable()
+        viewModelScope.launch(coroutineContext) {
+            val result = model.getTasks().filter {
+                it.status == status
             }
-
-        disposable.add(tasksListDisposable)
-
+            tasksLiveData.postValue(result)
+        }
     }
 
 }
