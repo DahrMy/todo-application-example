@@ -6,10 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todoapplicationexample.databinding.FragmentTasksDeletedBinding
 import com.example.todoapplicationexample.todo.Task
 import com.example.todoapplicationexample.todo.TaskStatus
+import kotlinx.coroutines.launch
 
 class TasksDeletedFragment : Fragment() {
 
@@ -33,8 +35,8 @@ class TasksDeletedFragment : Fragment() {
         binding.recyclerView.adapter = adapter
 
         viewModel = initViewModel()
-        viewModel.loadList(TaskStatus.IN_PROGRESS)
-        showList()
+        initListFlow()
+        viewModel.loadList(TaskStatus.DELETED)
 
         return view
     }
@@ -43,9 +45,12 @@ class TasksDeletedFragment : Fragment() {
         this, TasksListViewModelFactory(model)
     )[TasksListViewModel::class.java]
 
-    private fun showList() {
-        viewModel.getListLiveData().observe(viewLifecycleOwner) {
-            adapter.updateList(it)
+    private fun initListFlow() {
+        lifecycleScope.launch {
+            viewModel.getListFlow().collect {
+                list = it.toMutableList()
+                adapter.updateList(list)
+            }
         }
     }
 

@@ -1,7 +1,5 @@
 package com.example.todoapplicationexample.todo.lists
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todoapplicationexample.todo.Task
@@ -9,6 +7,8 @@ import com.example.todoapplicationexample.todo.TaskStatus
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
 class TasksListViewModel(
@@ -17,21 +17,21 @@ class TasksListViewModel(
 
     private val coroutineContext = Job() + Dispatchers.IO
 
-    private val tasksLiveData = MutableLiveData<List<Task>>()
+    private val tasksFlow = MutableSharedFlow<List<Task>>()
 
     override fun onCleared() {
         coroutineContext.cancel()
         super.onCleared()
     }
 
-    fun getListLiveData(): LiveData<List<Task>> = tasksLiveData
+    fun getListFlow(): Flow<List<Task>> = tasksFlow
 
     fun loadList(status: TaskStatus) {
         viewModelScope.launch(coroutineContext) {
             val result = model.getTasks().filter {
                 it.status == status
             }
-            tasksLiveData.postValue(result)
+            tasksFlow.emit(result)
         }
     }
 

@@ -6,11 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.todoapplicationexample.databinding.FragmentTasksDoneListBinding
 import com.example.todoapplicationexample.todo.Task
 import com.example.todoapplicationexample.todo.TaskStatus
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import kotlinx.coroutines.launch
 
 class TasksDoneFragment : Fragment() {
 
@@ -34,8 +36,8 @@ class TasksDoneFragment : Fragment() {
         binding.recyclerView.adapter = adapter
 
         viewModel = initViewModel()
+        initListFlow()
         viewModel.loadList(TaskStatus.DONE)
-        showList()
 
         return view
     }
@@ -50,9 +52,12 @@ class TasksDoneFragment : Fragment() {
         this, TasksListViewModelFactory(model)
     )[TasksListViewModel::class.java]
 
-    private fun showList() {
-        viewModel.getListLiveData().observe(viewLifecycleOwner) {
-            adapter.updateList(it)
+    private fun initListFlow() {
+        lifecycleScope.launch {
+            viewModel.getListFlow().collect {
+                list = it.toMutableList()
+                adapter.updateList(list)
+            }
         }
     }
 
