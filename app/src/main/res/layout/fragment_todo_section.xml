@@ -4,24 +4,87 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    tools:ignore="MissingConstraints">
+
+    <androidx.constraintlayout.helper.widget.Flow
+        android:id="@+id/flow_main"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_margin="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tab_layout"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:flow_verticalGap="8dp"
+        app:constraint_referenced_ids="
+            group_add_task,
+            view_pager
+        " />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:tabMode="fixed"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tabMode="fixed" />
+    
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/group_add_task"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <androidx.constraintlayout.helper.widget.Flow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:flow_horizontalGap="8dp"
+            app:constraint_referenced_ids="button_set_reminder,text_input_layout_add_task" />
+
+        <Button
+            android:id="@+id/button_set_reminder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/button_set_reminder_description"
+            app:icon="@drawable/ic_schedule"
+            style="?attr/materialIconButtonOutlinedStyle" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_input_layout_add_task"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:endIconMode="custom"
+            app:endIconDrawable="@drawable/ic_action_add"
+            app:endIconContentDescription="@string/text_input_layout_add_task_end_icon_description" >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_text_add_task"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/edit_text_add_task_hint" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/view_pager"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tab_layout" />
+        android:layout_height="0dp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_add_task"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:contentDescription="@string/fab_add_task_description"
+        app:srcCompat="@drawable/ic_action_add"
+        app:layout_constraintEnd_toEndOf="@id/flow_main"
+        app:layout_constraintBottom_toBottomOf="@id/flow_main"
+        style="@style/ThemeOverlay.Material3.FloatingActionButton.Primary" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

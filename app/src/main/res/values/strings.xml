@@ -9,4 +9,8 @@
     <string name="imageview_ic_profile_image_edit_description">Change the profile image</string>
     <string name="button_confirm_text">Confirm</string>
     <string name="text_input_user_name_hint">User name</string>
+    <string name="edit_text_add_task_hint">Write a note\'s name here</string>
+    <string name="fab_add_task_description">Add a new todo item to the list</string>
+    <string name="text_input_layout_add_task_end_icon_description">Add note</string>
+    <string name="button_set_reminder_description">Set reminder</string>
 </resources>

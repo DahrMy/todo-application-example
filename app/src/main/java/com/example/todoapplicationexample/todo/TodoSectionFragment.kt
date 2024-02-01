@@ -30,6 +30,10 @@ class TodoSectionFragment : Fragment() {
             TabLayoutMediator(tabLayout, viewPager) {
                 tab, position -> tab.text = tabNames[position]
             }.attach()
+
+            fabAddTask.setOnClickListener { // TODO: Move from here
+                groupAddTask.visibility = View.VISIBLE
+            }
         }
 
         return binding.root
@@ -43,15 +47,4 @@ class TodoSectionFragment : Fragment() {
         )
     }
 
-
-    companion object {
-
-        @JvmStatic
-        fun newInstance() =
-            TodoSectionFragment().apply {
-                arguments = Bundle().apply {
-
-                }
-            }
-    }
 }
