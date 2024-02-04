@@ -1,14 +1,13 @@
 package com.example.todoapplicationexample.todo.view
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.todoapplicationexample.databinding.FragmentTodoSectionBinding
-import com.example.todoapplicationexample.todo.Task
 import com.example.todoapplicationexample.todo.TaskStatus
 import com.example.todoapplicationexample.todo.viewmodel.TasksListModel
 import com.example.todoapplicationexample.todo.viewmodel.TasksListViewModel
@@ -19,27 +18,19 @@ class TodoSectionFragment : Fragment() {
 
     private var _binding: FragmentTodoSectionBinding? = null
     private val binding get() = _binding!!
-    private lateinit var list: List<Task> // TODO: Move to model
     private val recyclerViewAdapter by lazy { TasksRecyclerViewAdapter() }
-    private val viewModel by lazy { initViewModel() }
+    private val viewModel by lazy { initViewModel(TasksListModel()) }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentTodoSectionBinding.inflate(inflater, container,false)
+        binding.recyclerViewTasks.adapter = recyclerViewAdapter
 
-        binding.apply {
+        initObservers()
+        setOnClickListeners()
 
-            recyclerViewTasks.adapter = recyclerViewAdapter
-
-            fabAddTask.setOnClickListener {
-                groupAddTask.visibility = View.VISIBLE
-            }
-
-            initListFlow()
-            viewModel.loadList(TaskStatus.IN_PROGRESS)
-
-        }
+        viewModel.getTasksList(TaskStatus.IN_PROGRESS)
 
         return binding.root
     }
@@ -49,17 +40,24 @@ class TodoSectionFragment : Fragment() {
         super.onDestroy()
     }
 
-    private fun initListFlow() {
+    private fun initViewModel(model: TasksListModel) = ViewModelProvider(
+        this, TasksListViewModelFactory(model)
+    )[TasksListViewModel::class.java]
+
+    private fun initObservers() {
         lifecycleScope.launch {
             viewModel.getListFlow().collect {
-                list = it.toMutableList()
-                recyclerViewAdapter.updateList(list)
+                recyclerViewAdapter.updateList(it)
             }
         }
     }
 
-    private fun initViewModel() = ViewModelProvider(
-        this, TasksListViewModelFactory(TasksListModel())
-    )[TasksListViewModel::class.java]
+    private fun setOnClickListeners() {
+        binding.apply {
+            fabAddTask.setOnClickListener {
+                groupAddTask.visibility = View.VISIBLE
+            }
+        }
+    }
 
 }

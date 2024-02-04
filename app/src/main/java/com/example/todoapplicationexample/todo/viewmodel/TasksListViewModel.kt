@@ -26,13 +26,19 @@ class TasksListViewModel(
 
     fun getListFlow(): Flow<List<Task>> = tasksFlow
 
-    fun loadList(status: TaskStatus) {
+    fun getTasksList(status: TaskStatus) {
         viewModelScope.launch(coroutineContext) {
-            val result = model.getTasks().filter {
+            loadList()
+            val result = model.list.filter {
                 it.status == status
             }
+
             tasksFlow.emit(result)
         }
+    }
+
+    private suspend fun loadList() {
+        model.list = model.getTasks()
     }
 
 }

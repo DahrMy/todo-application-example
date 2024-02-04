@@ -5,6 +5,8 @@ import com.example.todoapplicationexample.todo.TaskUtils
 
 class TasksListModel {
 
-    fun getTasks(): List<Task> = TaskUtils.generateSimpleList()
+    var list: List<Task> = listOf()
+
+    suspend fun getTasks(): List<Task> = TaskUtils.generateSimpleList() // Imitation loading from DB, because suspend is it
 
 }
