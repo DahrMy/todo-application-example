@@ -11,27 +11,33 @@
         android:id="@+id/flow_main"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:orientation="vertical"
         android:layout_margin="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tab_layout"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:flow_verticalGap="8dp"
+        android:paddingBottom="76dp"
+        android:orientation="vertical"
         app:constraint_referenced_ids="
-            group_add_task,
-            view_pager
-        " />
-
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+            recycler_view_tasks,
+            group_add_task
+        "
+        app:flow_verticalGap="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tabMode="fixed" />
-    
+        app:layout_constraintTop_toBottomOf="@+id/textview_open_task_status_menu" />
+
+    <TextView
+        android:id="@+id/textview_open_task_status_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:text="Task_status ▼"
+        android:clickable="true"
+        android:checkable="true"
+        android:focusable="true"
+        android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/group_add_task"
         android:layout_width="0dp"
@@ -70,9 +76,9 @@
         </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/view_pager"
+    
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_tasks"
         android:layout_width="0dp"
         android:layout_height="0dp" />
 

@@ -26,10 +26,10 @@ class TodoSectionFragment : Fragment() {
         tabNames = getTabNames()
         tabLayoutAdapter = TabBarNumberAdapter(requireActivity())
         binding.apply {
-            viewPager.adapter = tabLayoutAdapter
-            TabLayoutMediator(tabLayout, viewPager) {
-                tab, position -> tab.text = tabNames[position]
-            }.attach()
+//            viewPager.adapter = tabLayoutAdapter
+//            TabLayoutMediator(tabLayout, viewPager) {
+//                tab, position -> tab.text = tabNames[position]
+//            }.attach()
 
             fabAddTask.setOnClickListener { // TODO: Move from here
                 groupAddTask.visibility = View.VISIBLE
