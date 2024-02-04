@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.todoapplicationexample.databinding.ActivityMainBinding
 import com.example.todoapplicationexample.profile.ProfileSectionFragment
-import com.example.todoapplicationexample.todo.TodoSectionFragment
+import com.example.todoapplicationexample.todo.view.TodoSectionFragment
 
 private var _binding: ActivityMainBinding? = null
 private val binding get() = _binding!!

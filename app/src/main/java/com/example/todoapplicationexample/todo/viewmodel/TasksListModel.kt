@@ -1,4 +1,4 @@
-package com.example.todoapplicationexample.todo.lists
+package com.example.todoapplicationexample.todo.viewmodel
 
 import com.example.todoapplicationexample.todo.Task
 import com.example.todoapplicationexample.todo.TaskUtils

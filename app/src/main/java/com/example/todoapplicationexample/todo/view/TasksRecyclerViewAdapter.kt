@@ -1,4 +1,4 @@
-package com.example.todoapplicationexample.todo.lists
+package com.example.todoapplicationexample.todo.view
 
 import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
@@ -9,9 +9,9 @@ import com.example.todoapplicationexample.todo.Task
 
 import com.example.todoapplicationexample.databinding.ItemTaskInProgressBinding
 
-class TasksInProgressRecyclerViewAdapter(
-    private val values: MutableList<Task>
-) : RecyclerView.Adapter<TasksInProgressRecyclerViewAdapter.ViewHolder>() {
+class TasksRecyclerViewAdapter : RecyclerView.Adapter<TasksRecyclerViewAdapter.ViewHolder>() {
+
+    private val values = emptyList<Task>().toMutableList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(ItemTaskInProgressBinding.inflate(

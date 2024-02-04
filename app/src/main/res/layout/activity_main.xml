@@ -14,7 +14,7 @@
         android:layout_height="0dp"
         android:layout_gravity="top"
         android:layout_weight="1"
-        android:name="com.example.todoapplicationexample.todo.TodoSectionFragment"
+        android:name="com.example.todoapplicationexample.todo.view.TodoSectionFragment"
         tools:layout="@layout/fragment_todo_section" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
