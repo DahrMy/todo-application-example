@@ -5,5 +5,9 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
+    <style name="DynamicColorCustomTheme" parent="ThemeOverlay.Material3.DynamicColors.DayNight">
+
+    </style>
+
     <style name="Theme.TODOApplicationExample" parent="Base.Theme.TODOApplicationExample" />
 </resources>
