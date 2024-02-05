@@ -12,7 +12,6 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_margin="16dp"
-        android:paddingBottom="76dp"
         android:orientation="vertical"
         app:constraint_referenced_ids="
             recycler_view_tasks,
@@ -22,21 +21,22 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textview_open_task_status_menu" />
+        app:layout_constraintTop_toBottomOf="@+id/textview_open_task_status_filter_menu" />
 
     <TextView
-        android:id="@+id/textview_open_task_status_menu"
+        android:id="@+id/textview_open_task_status_filter_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
-        android:text="Task_status ▼"
+        android:text="@string/textview_open_task_status_filter_menu_text"
         android:clickable="true"
         android:checkable="true"
         android:focusable="true"
         android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="[Task_status] ▼" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_tasks"
@@ -49,9 +49,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/group_add_task"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        tools:visibility="visible">
+        android:layout_height="wrap_content" >
 
         <androidx.constraintlayout.helper.widget.Flow
             android:layout_width="match_parent"
@@ -73,7 +71,7 @@
             android:layout_height="wrap_content"
             app:flow_verticalAlign="center"
             app:endIconMode="custom"
-            app:endIconDrawable="@drawable/ic_action_add"
+            app:endIconDrawable="@drawable/ic_arrow_upward"
             app:endIconContentDescription="@string/text_input_layout_add_task_end_icon_description" >
 
             <com.google.android.material.textfield.TextInputEditText
@@ -85,16 +83,5 @@
         </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_add_task"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:contentDescription="@string/fab_add_task_description"
-        app:srcCompat="@drawable/ic_action_add"
-        app:layout_constraintEnd_toEndOf="@id/flow_main"
-        app:layout_constraintBottom_toBottomOf="@id/flow_main"
-        style="@style/ThemeOverlay.Material3.FloatingActionButton.Primary" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
