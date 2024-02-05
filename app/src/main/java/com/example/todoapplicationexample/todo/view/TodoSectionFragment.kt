@@ -34,7 +34,6 @@ class TodoSectionFragment : Fragment() {
         binding.recyclerViewTasks.adapter = recyclerViewAdapter
 
         initObservers()
-        viewModel.emitTasksList(taskStatusFilter)
 
         setViewContent(taskStatusFilter)
         setOnClickListeners()
@@ -67,6 +66,7 @@ class TodoSectionFragment : Fragment() {
                 taskStatus.text
             )
         }
+        viewModel.emitTasksList(taskStatus) // TODO: question(Will it duplicate coroutines?)
     }
 
     private fun setOnClickListeners() {
@@ -81,34 +81,27 @@ class TodoSectionFragment : Fragment() {
         showMenu(view, R.menu.popup_menu_task_status_filter)
     }
 
-    private fun popupMenuTaskStatusFilterOnClickListener(menuItem: MenuItem): Boolean {
-        when (menuItem.itemId) {
-            R.id.in_progress -> {
-                taskStatusFilter = TaskStatus.IN_PROGRESS
-                setViewContent(taskStatusFilter)
-                return true
-            }
-            R.id.done -> {
-                taskStatusFilter = TaskStatus.DONE
-                setViewContent(taskStatusFilter)
-                return true
-            }
-            R.id.deleted -> {
-                taskStatusFilter = TaskStatus.DELETED
-                setViewContent(taskStatusFilter)
-                return true
-            }
-        }
-        return false
-    }
-
-    private fun showMenu(v: View, @MenuRes menuRes: Int) { // TODO: separate logically
+    private fun showMenu(v: View, @MenuRes menuRes: Int) {
         val popup = PopupMenu(requireContext(), v)
         popup.menuInflater.inflate(menuRes, popup.menu)
-
         popup.setOnMenuItemClickListener { popupMenuTaskStatusFilterOnClickListener(it) }
-
         popup.show()
     }
+
+    private fun popupMenuTaskStatusFilterOnClickListener(menuItem: MenuItem): Boolean {
+        return when (menuItem.itemId) {
+            R.id.in_progress -> popupMenuItemTaskStatusFilterOnClickListener(TaskStatus.IN_PROGRESS)
+            R.id.done -> popupMenuItemTaskStatusFilterOnClickListener(TaskStatus.DONE)
+            R.id.deleted -> popupMenuItemTaskStatusFilterOnClickListener(TaskStatus.DELETED)
+            else -> false
+        }
+    }
+
+    private fun popupMenuItemTaskStatusFilterOnClickListener(status: TaskStatus): Boolean {
+        taskStatusFilter = status
+        setViewContent(taskStatusFilter)
+        return true
+    }
+
 
 }
