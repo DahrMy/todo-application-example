@@ -3,12 +3,11 @@ package com.example.todoapplicationexample.todo.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todoapplicationexample.todo.Task
-import com.example.todoapplicationexample.todo.TaskStatus
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.launch
 
 class TasksListViewModel(
@@ -17,35 +16,36 @@ class TasksListViewModel(
 
     private val coroutineContext = Job() + Dispatchers.IO
 
-    private val tasksFlow = MutableSharedFlow<List<Task>>()
+    private val tasksMutableFlow = MutableSharedFlow<List<Task>>()
+    val tasksFlow: SharedFlow<List<Task>> = tasksMutableFlow
+
 
     override fun onCleared() {
         coroutineContext.cancel()
         super.onCleared()
     }
 
-    fun getListFlow(): Flow<List<Task>> = tasksFlow
-
-    fun emitTasksList(status: TaskStatus) {
+    fun startListLoading() {
         viewModelScope.launch(coroutineContext) {
-            val result = model.list.filter {
-                it.status == status
+
+            model.getTaskEntities().collect { list ->
+                val tasksList = mutableListOf<Task>()
+
+                list.map {
+                    val item = Task(it.name, it.status)
+                    tasksList.add(item)
+                }
+
+                tasksMutableFlow.emit(tasksList)
             }
 
-            tasksFlow.emit(result)
         }
     }
 
-    suspend fun loadList() {
-        model.list = model.getTasks().toMutableList()
-    }
-
-    fun uploadItemToList(task: Task) {
-        model.list.add(0, task)
+    fun uploadItem(task: Task) {
         viewModelScope.launch(coroutineContext) {
-            model.uploadListToDB()
+            model.uploadItemToDB(task)
         }
-
     }
 
 }

@@ -6,7 +6,4 @@ enum class TaskStatus(val text: String) {
     DONE("Done"),
     DELETED("Deleted");
 
-
-
-
 }

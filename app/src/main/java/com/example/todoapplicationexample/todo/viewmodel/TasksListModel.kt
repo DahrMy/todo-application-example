@@ -1,15 +1,21 @@
 package com.example.todoapplicationexample.todo.viewmodel
 
+import com.example.todoapplicationexample.db.todo.tables.tasks.TasksDao
+import com.example.todoapplicationexample.db.todo.tables.tasks.TaskEntity
 import com.example.todoapplicationexample.todo.Task
-import com.example.todoapplicationexample.todo.TaskUtils
+import com.example.todoapplicationexample.todo.TaskStatus
+import kotlinx.coroutines.flow.Flow
 
-class TasksListModel {
+class TasksListModel(private val tasksDao: TasksDao) {
 
-    var list: MutableList<Task> = mutableListOf()
-
-    suspend fun getTasks(): List<Task> = TaskUtils.generateSimpleList() // Imitation loading from DB, because suspend is it
-    suspend fun uploadListToDB() {
-        // Imitation uploading to DB, because suspend
+    fun getTaskEntities(): Flow<List<TaskEntity>> = tasksDao.getAllTaskEntities()
+    fun getTasksNames(): Flow<List<String>> = tasksDao.getAllTasksNames()
+    fun getTasksStatuses(): Flow<List<TaskStatus>> = tasksDao.getAllTasksStatuses()
+    suspend fun uploadItemToDB(item: Task) {
+        tasksDao.insertTask(TaskEntity(
+            name = item.name,
+            status = item.status
+        ))
     }
 
 }
