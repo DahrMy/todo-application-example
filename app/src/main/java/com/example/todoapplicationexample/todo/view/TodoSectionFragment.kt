@@ -1,6 +1,8 @@
 package com.example.todoapplicationexample.todo.view
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -12,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.todoapplicationexample.R
 import com.example.todoapplicationexample.databinding.FragmentTodoSectionBinding
+import com.example.todoapplicationexample.todo.Task
 import com.example.todoapplicationexample.todo.TaskStatus
 import com.example.todoapplicationexample.todo.viewmodel.TasksListModel
 import com.example.todoapplicationexample.todo.viewmodel.TasksListViewModel
@@ -32,12 +35,12 @@ class TodoSectionFragment : Fragment() {
     ): View {
         _binding = FragmentTodoSectionBinding.inflate(inflater, container,false)
         binding.recyclerViewTasks.adapter = recyclerViewAdapter
+        binding.textInputLayoutAddTask.isEndIconVisible = false
 
         initObservers()
-
+        loadData()
         setViewContent(taskStatusFilter)
-        setOnClickListeners()
-
+        setViewListeners()
 
         return binding.root
     }
@@ -59,6 +62,12 @@ class TodoSectionFragment : Fragment() {
         }
     }
 
+    private fun loadData() {
+        lifecycleScope.launch {
+            viewModel.loadList()
+        }
+    }
+
     private fun setViewContent(taskStatus: TaskStatus) {
         binding.apply {
             textviewOpenTaskStatusFilterMenu.text = String.format(
@@ -69,16 +78,45 @@ class TodoSectionFragment : Fragment() {
         viewModel.emitTasksList(taskStatus) // TODO: question(Will it duplicate coroutines?)
     }
 
-    private fun setOnClickListeners() {
+    private fun setViewListeners() {
         binding.apply {
             textviewOpenTaskStatusFilterMenu.setOnClickListener { view ->
                 textViewOpenTaskStatusFilterMenuOnClickListener(view)
             }
+
+            textInputLayoutAddTask.setEndIconOnClickListener {
+                textInputLayoutAddTaskEndIconOnClickListener()
+            }
+
+            editTextAddTask.addTextChangedListener(editTextAddTaskTextWatcher())
+
         }
+    }
+
+    private fun textInputLayoutAddTaskEndIconOnClickListener() {
+        val task = Task(binding.editTextAddTask.text.toString(), TaskStatus.IN_PROGRESS)
+        viewModel.uploadItemToList(task)
+        viewModel.emitTasksList(taskStatusFilter)
+        binding.editTextAddTask.setText("")
+        binding.recyclerViewTasks.smoothScrollToPosition(0)
     }
 
     private fun textViewOpenTaskStatusFilterMenuOnClickListener(view: View) {
         showMenu(view, R.menu.popup_menu_task_status_filter)
+    }
+
+    private fun editTextAddTaskTextWatcher(): TextWatcher {
+        return object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) { }
+
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) { }
+
+                override fun afterTextChanged(s: Editable?) {
+                    val isEditTextNotEmpty = s.toString().isNotEmpty()
+                    binding.textInputLayoutAddTask.isEndIconVisible = isEditTextNotEmpty
+                }
+
+        }
     }
 
     private fun showMenu(v: View, @MenuRes menuRes: Int) {

@@ -28,7 +28,6 @@ class TasksListViewModel(
 
     fun emitTasksList(status: TaskStatus) {
         viewModelScope.launch(coroutineContext) {
-            loadList()
             val result = model.list.filter {
                 it.status == status
             }
@@ -37,8 +36,16 @@ class TasksListViewModel(
         }
     }
 
-    private suspend fun loadList() {
-        model.list = model.getTasks()
+    suspend fun loadList() {
+        model.list = model.getTasks().toMutableList()
+    }
+
+    fun uploadItemToList(task: Task) {
+        model.list.add(0, task)
+        viewModelScope.launch(coroutineContext) {
+            model.uploadListToDB()
+        }
+
     }
 
 }
