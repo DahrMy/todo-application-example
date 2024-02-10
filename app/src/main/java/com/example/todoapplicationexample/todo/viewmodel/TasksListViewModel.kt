@@ -1,8 +1,10 @@
 package com.example.todoapplicationexample.todo.viewmodel
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.todoapplicationexample.todo.Task
+import com.example.todoapplicationexample.todo.TaskStatus
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
@@ -19,6 +21,7 @@ class TasksListViewModel(
     private val tasksMutableFlow = MutableSharedFlow<List<Task>>()
     val tasksFlow: SharedFlow<List<Task>> = tasksMutableFlow
 
+    val statusFilterLiveData = MutableLiveData(TaskStatus.IN_PROGRESS)
 
     override fun onCleared() {
         coroutineContext.cancel()

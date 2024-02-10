@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.annotation.MenuRes
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.room.Room
@@ -33,8 +32,6 @@ class TodoSectionFragment : Fragment() {
 
     private lateinit var database: TodoDataBase
     private lateinit var tasksDao: TasksDao
-
-    private val statusFilterLiveData by lazy { MutableLiveData(TaskStatus.IN_PROGRESS) }
 
     private val viewModel by lazy { initViewModel(TasksListModel(tasksDao)) }
 
@@ -74,7 +71,7 @@ class TodoSectionFragment : Fragment() {
 
         lifecycleScope.launch {
             viewModel.tasksFlow.collect { list ->
-                statusFilterLiveData.observe(viewLifecycleOwner) { status ->
+                viewModel.statusFilterLiveData.observe(viewLifecycleOwner) { status ->
                     val result = list.filter { it.status == status }
                     recyclerViewAdapter.updateList(result) // TODO: Update all list (not an one item). Fix it.
                 }
@@ -82,7 +79,7 @@ class TodoSectionFragment : Fragment() {
         }
 
         lifecycleScope.launch {
-            statusFilterLiveData.observe(viewLifecycleOwner) { status ->
+            viewModel.statusFilterLiveData.observe(viewLifecycleOwner) { status ->
                 binding.textviewOpenTaskStatusFilterMenu.text = String.format(
                     resources.getString(R.string.textview_open_task_status_filter_menu_text),
                     status.text
@@ -140,15 +137,15 @@ class TodoSectionFragment : Fragment() {
     private fun popupMenuTaskStatusFilterOnClickListener(menuItem: MenuItem): Boolean {
         return when (menuItem.itemId) {
             R.id.in_progress -> {
-                statusFilterLiveData.postValue(TaskStatus.IN_PROGRESS)
+                viewModel.statusFilterLiveData.postValue(TaskStatus.IN_PROGRESS)
                 return true
             }
             R.id.done -> {
-                statusFilterLiveData.postValue(TaskStatus.DONE)
+                viewModel.statusFilterLiveData.postValue(TaskStatus.DONE)
                 return true
             }
             R.id.deleted -> {
-                statusFilterLiveData.postValue(TaskStatus.DELETED)
+                viewModel.statusFilterLiveData.postValue(TaskStatus.DELETED)
                 return true
             }
             else -> false
