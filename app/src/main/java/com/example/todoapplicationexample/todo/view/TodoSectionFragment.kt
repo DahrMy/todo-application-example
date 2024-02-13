@@ -22,12 +22,17 @@ import com.example.todoapplicationexample.todo.TaskStatus
 import com.example.todoapplicationexample.todo.viewmodel.TasksListModel
 import com.example.todoapplicationexample.todo.viewmodel.TasksListViewModel
 import com.example.todoapplicationexample.todo.viewmodel.TasksListViewModelFactory
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.DateValidatorPointForward
+import com.google.android.material.datepicker.MaterialDatePicker
 import kotlinx.coroutines.launch
 
+// TODO: Create cancellation reminder: https://stackoverflow.com/questions/28922521/how-to-cancel-alarm-from-alarmmanager
 class TodoSectionFragment : Fragment() {
 
     private var _binding: FragmentTodoSectionBinding? = null
     private val binding get() = _binding!!
+
     private val recyclerViewAdapter by lazy { TasksRecyclerViewAdapter() }
 
     private lateinit var database: TodoDataBase
@@ -35,14 +40,15 @@ class TodoSectionFragment : Fragment() {
 
     private val viewModel by lazy { initViewModel(TasksListModel(tasksDao)) }
 
+    private val datePicker by lazy { initDatePicker() }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentTodoSectionBinding.inflate(inflater, container,false)
-        binding.recyclerViewTasks.adapter = recyclerViewAdapter
-        binding.textInputLayoutAddTask.isEndIconVisible = false
 
         initDB()
+        initViews()
         initObservers()
         viewModel.startListLoading()
         setViewListeners()
@@ -67,6 +73,13 @@ class TodoSectionFragment : Fragment() {
         this, TasksListViewModelFactory(model)
     )[TasksListViewModel::class.java]
 
+    private fun initViews() {
+        binding.apply {
+            recyclerViewTasks.adapter = recyclerViewAdapter
+            textInputLayoutAddTask.isEndIconVisible = false
+        }
+    }
+
     private fun initObservers() {
 
         lifecycleScope.launch {
@@ -89,6 +102,17 @@ class TodoSectionFragment : Fragment() {
 
     }
 
+    private fun initDatePicker(): MaterialDatePicker<Long> {
+        val constraintsBuilder = CalendarConstraints.Builder()
+            .setValidator(DateValidatorPointForward.now())
+
+        return MaterialDatePicker.Builder.datePicker()
+            .setTitleText(resources.getString(R.string.date_picker_title))
+            .setCalendarConstraints(constraintsBuilder.build())
+            .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+            .build()
+    }
+
     private fun setViewListeners() {
         binding.apply {
 
@@ -96,11 +120,19 @@ class TodoSectionFragment : Fragment() {
                 showMenu(view, R.menu.popup_menu_task_status_filter)
             }
 
+            buttonSetReminder.setOnClickListener {
+                datePicker.show(parentFragmentManager, tag)
+            }
+
             textInputLayoutAddTask.setEndIconOnClickListener {
                 textInputLayoutAddTaskEndIconOnClickListener()
             }
 
             editTextAddTask.addTextChangedListener(editTextAddTaskTextWatcher())
+
+            datePicker.addOnPositiveButtonClickListener { time ->
+                viewModel.timeToRemind += time
+            }
 
         }
     }

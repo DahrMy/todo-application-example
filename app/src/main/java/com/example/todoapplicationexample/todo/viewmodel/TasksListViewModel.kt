@@ -23,6 +23,8 @@ class TasksListViewModel(
 
     val statusFilterLiveData = MutableLiveData(TaskStatus.IN_PROGRESS)
 
+    var timeToRemind: Long = 0
+
     override fun onCleared() {
         coroutineContext.cancel()
         super.onCleared()
