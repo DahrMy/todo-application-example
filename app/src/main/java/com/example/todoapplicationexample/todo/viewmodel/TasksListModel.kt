@@ -14,7 +14,8 @@ class TasksListModel(private val tasksDao: TasksDao) {
     suspend fun uploadItemToDB(item: Task) {
         tasksDao.insertTask(TaskEntity(
             name = item.name,
-            status = item.status
+            status = item.status,
+            remindTime = item.remindTime
         ))
     }
 

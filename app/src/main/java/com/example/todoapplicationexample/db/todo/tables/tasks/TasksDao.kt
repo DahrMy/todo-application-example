@@ -15,11 +15,17 @@ interface TasksDao {
     @Query("SELECT * FROM tasks_table")
     fun getAllTaskEntities(): Flow<List<TaskEntity>>
 
+    @Query("SELECT id FROM tasks_table")
+    fun getAllTasksId(): Flow<List<Long>>
+
     @Query("SELECT name FROM tasks_table")
     fun getAllTasksNames(): Flow<List<String>>
 
     @Query("SELECT status FROM tasks_table")
     fun getAllTasksStatuses(): Flow<List<TaskStatus>>
+
+    @Query("SELECT remindTime FROM tasks_table")
+    fun getAllTasksRemindTime(): Flow<List<Long>>
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

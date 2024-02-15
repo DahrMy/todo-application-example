@@ -37,7 +37,7 @@ class TasksListViewModel(
                 val tasksList = mutableListOf<Task>()
 
                 list.map {
-                    val item = Task(it.name, it.status)
+                    val item = Task(it.id, it.name, it.status, it.remindTime)
                     tasksList.add(item)
                 }
 

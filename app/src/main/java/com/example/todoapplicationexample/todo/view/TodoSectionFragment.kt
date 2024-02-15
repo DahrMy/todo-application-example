@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.room.Room
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.todoapplicationexample.R
 import com.example.todoapplicationexample.databinding.FragmentTodoSectionBinding
 import com.example.todoapplicationexample.db.todo.TodoDataBase
@@ -62,9 +64,16 @@ class TodoSectionFragment : Fragment() {
     }
 
     private fun initDB() { // TODO: Move to MyApplication.kt
-        database = Room.databaseBuilder(
-            requireContext(), TodoDataBase::class.java, "TODO_Database"
-        ).build()
+        val migration1To2 = object : Migration(1, 2) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE tasks_table ADD COLUMN remindTime LONG NULL DEFAULT null")
+            }
+        }
+
+        database = Room
+            .databaseBuilder(requireContext(), TodoDataBase::class.java, "TODO_Database")
+            .addMigrations(migration1To2)
+            .build()
 
         tasksDao = database.tasksDao()
     }
@@ -139,7 +148,8 @@ class TodoSectionFragment : Fragment() {
 
     private fun textInputLayoutAddTaskEndIconOnClickListener() {
         binding.apply {
-            val task = Task(editTextAddTask.text.toString(), TaskStatus.IN_PROGRESS)
+            val task =
+                Task(null, editTextAddTask.text.toString(), TaskStatus.IN_PROGRESS, null)
             viewModel.uploadItem(task)
             editTextAddTask.setText("")
             recyclerViewTasks.smoothScrollToPosition(0)

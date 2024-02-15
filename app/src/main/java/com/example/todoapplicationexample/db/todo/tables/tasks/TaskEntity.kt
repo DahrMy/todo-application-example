@@ -9,5 +9,6 @@ data class TaskEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val name: String,
-    val status: TaskStatus
+    val status: TaskStatus,
+    val remindTime: Long?
 )
