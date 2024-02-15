@@ -66,7 +66,7 @@ class TodoSectionFragment : Fragment() {
     private fun initDB() { // TODO: Move to MyApplication.kt
         val migration1To2 = object : Migration(1, 2) {
             override fun migrate(db: SupportSQLiteDatabase) {
-                db.execSQL("ALTER TABLE tasks_table ADD COLUMN remindTime LONG NULL DEFAULT null")
+                db.execSQL("ALTER TABLE tasks_table ADD COLUMN remindTime INTEGER DEFAULT null")
             }
         }
 
