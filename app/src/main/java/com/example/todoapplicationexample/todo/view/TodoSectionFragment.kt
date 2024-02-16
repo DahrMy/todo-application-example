@@ -1,8 +1,10 @@
 package com.example.todoapplicationexample.todo.view
 
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.text.format.DateFormat
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -27,7 +29,10 @@ import com.example.todoapplicationexample.todo.viewmodel.TasksListViewModelFacto
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 
 // TODO: Create cancellation reminder: https://stackoverflow.com/questions/28922521/how-to-cancel-alarm-from-alarmmanager
 class TodoSectionFragment : Fragment() {
@@ -40,9 +45,10 @@ class TodoSectionFragment : Fragment() {
     private lateinit var database: TodoDataBase
     private lateinit var tasksDao: TasksDao
 
-    private val viewModel by lazy { initViewModel(TasksListModel(tasksDao)) }
+    private val viewModel by lazy { initViewModel(TasksListModel(requireContext(), tasksDao)) }
 
     private val datePicker by lazy { initDatePicker() }
+    private val timePicker by lazy { initTimePicker() }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -122,6 +128,20 @@ class TodoSectionFragment : Fragment() {
             .build()
     }
 
+    private fun initTimePicker(): MaterialTimePicker {
+        val currentTime = Calendar.getInstance()
+        val timeFormat = if (DateFormat.is24HourFormat(requireContext()))
+            TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
+
+        return MaterialTimePicker.Builder()
+            .setTimeFormat(timeFormat)
+            .setInputMode(MaterialTimePicker.INPUT_MODE_CLOCK)
+            .setHour(currentTime.get(Calendar.HOUR_OF_DAY))
+            .setMinute(currentTime.get(Calendar.MINUTE))
+            .setTitleText(resources.getString(R.string.time_picker_title))
+            .build()
+    }
+
     private fun setViewListeners() {
         binding.apply {
 
@@ -133,15 +153,31 @@ class TodoSectionFragment : Fragment() {
                 datePicker.show(parentFragmentManager, tag)
             }
 
+            buttonEditReminder.setOnClickListener {
+                datePicker.show(parentFragmentManager, tag) // TODO: Change action
+            }
+
+            datePicker.addOnPositiveButtonClickListener { time ->
+                viewModel.timeToRemind = time
+                println(time)
+                timePicker.show(parentFragmentManager, tag)
+            }
+
+            timePicker.addOnPositiveButtonClickListener {
+                var timeInMills: Long = 0
+                timeInMills += TimeUnit.HOURS.toMillis(timePicker.hour.toLong())
+                timeInMills += TimeUnit.MINUTES.toMillis(timePicker.minute.toLong())
+                viewModel.timeToRemind = viewModel.timeToRemind!! + timeInMills
+
+                buttonSetReminder.visibility = View.GONE
+                buttonEditReminder.visibility = View.VISIBLE
+            }
+
             textInputLayoutAddTask.setEndIconOnClickListener {
                 textInputLayoutAddTaskEndIconOnClickListener()
             }
 
             editTextAddTask.addTextChangedListener(editTextAddTaskTextWatcher())
-
-            datePicker.addOnPositiveButtonClickListener { time ->
-                viewModel.timeToRemind += time
-            }
 
         }
     }

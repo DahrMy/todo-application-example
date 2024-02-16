@@ -1,13 +1,15 @@
 package com.example.todoapplicationexample.todo
 
+import java.io.Serializable
+
 data class Task(
-    val id: Int?,
+    var id: Long?,
     var name: String,
     var status: TaskStatus,
     var remindTime: Long?
-) {
+) : Serializable { // TODO: Change to Parcelable
 
-    object TaskUtils {
+    companion object {
         fun generateSimpleList(): List<Task> {
 
             // Generated AI list

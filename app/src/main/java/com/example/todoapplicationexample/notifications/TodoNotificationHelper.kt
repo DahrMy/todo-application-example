@@ -54,9 +54,7 @@ class TodoNotificationHelper(private val context: Context) {
     }
 
     fun updateNotification(text: String?) {
-        text?.let {
-            notificationBuilder.setContentText(it)
-        }
+        text?.let { notificationBuilder.setContentText(it) }
         notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build()) // check second argument
     }
 

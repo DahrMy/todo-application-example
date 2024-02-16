@@ -18,4 +18,5 @@
     <string name="menu_task_status_filter_deleted_title">Deleted</string>
     <string name="textview_open_task_status_filter_menu_text">%1$s ▼</string>
     <string name="date_picker_title">Select date to remind</string>
+    <string name="time_picker_title">Select time to remind</string>
 </resources>

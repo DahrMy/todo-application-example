@@ -55,15 +55,24 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:flow_horizontalGap="8dp"
-            app:constraint_referenced_ids="button_set_reminder,text_input_layout_add_task" />
+            app:constraint_referenced_ids="button_set_reminder, button_edit_reminder,text_input_layout_add_task" />
 
         <Button
             android:id="@+id/button_set_reminder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:contentDescription="@string/button_set_reminder_description"
-            app:icon="@drawable/ic_schedule"
+            app:icon="@drawable/ic_action_add_notification"
             style="?attr/materialIconButtonOutlinedStyle" />
+
+        <Button
+            android:id="@+id/button_edit_reminder"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/button_set_reminder_description"
+            android:visibility="gone"
+            app:icon="@drawable/ic_action_edit_notification"
+            style="?attr/materialIconButtonFilledStyle" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/text_input_layout_add_task"

@@ -7,7 +7,7 @@ import com.example.todoapplicationexample.todo.TaskStatus
 @Entity(tableName = "tasks_table")
 data class TaskEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    val id: Long = 0,
     val name: String,
     val status: TaskStatus,
     val remindTime: Long?

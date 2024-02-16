@@ -23,7 +23,7 @@ class TasksListViewModel(
 
     val statusFilterLiveData = MutableLiveData(TaskStatus.IN_PROGRESS)
 
-    var timeToRemind: Long = 0
+    var timeToRemind: Long? = null
 
     override fun onCleared() {
         coroutineContext.cancel()
@@ -49,7 +49,9 @@ class TasksListViewModel(
 
     fun uploadItem(task: Task) {
         viewModelScope.launch(coroutineContext) {
-            model.uploadItemToDB(task)
+            task.remindTime = timeToRemind
+            task.id = model.uploadItemToDB(task)
+            model.setItemReminder(task)
         }
     }
 
